@@ -11,7 +11,7 @@ import cartRoutes from "./routes/cart.route.js";
 import analyticsRoutes from "./routes/analytics.route.js";
 
 import { connectDB } from "./lib/db.js";
-
+import cors from 'cors'
 dotenv.config();
 
 const app = express();
@@ -19,7 +19,15 @@ const PORT = process.env.PORT || 3000;
 
 const __dirname = path.resolve();
 
-app.use(express.json({ limit: "10mb" })); // allows you to parse the body of the request
+
+app.use(express.json({ limit: "10mb" }));
+// Allow requests from specific origins
+app.use(
+	cors({
+	  origin: "http://localhost:5173", // Frontend origin
+	  credentials: true, // Allow cookies and authorization headers
+	})
+  ); // allows you to parse the body of the request
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
